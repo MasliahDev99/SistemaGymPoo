@@ -1,10 +1,6 @@
 ## Sistema de Gymnasio-Practica Poo c++ (personal)
 
 
-## Problema identificado
-
-Se ha detectado un problema crítico relacionado con la asignación de memoria dinámica al momento de iniciar sesión en un gimnasio recién creado. Este problema ha surgido en el contexto de un proyecto de C++ que utiliza programación orientada a objetos (POO).
-
 ## Descripción del trabajo
 
 El proyecto consiste en la implementación de un sistema de gestión de gimnasios en C++, utilizando principios de POO. Se ha diseñado un menú simple que facilita la interacción tanto para usuarios invitados como para usuarios registrados.
