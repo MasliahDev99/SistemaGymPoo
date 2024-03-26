@@ -1,8 +1,6 @@
 ## Sistema de Gymnasio-Practica Poo c++ (personal)
 
 
-# Solución a fallo de memoria dinámica en proyecto de C++ utilizando POO
-
 ## Problema identificado
 
 Se ha detectado un problema crítico relacionado con la asignación de memoria dinámica al momento de iniciar sesión en un gimnasio recién creado. Este problema ha surgido en el contexto de un proyecto de C++ que utiliza programación orientada a objetos (POO).
