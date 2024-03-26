@@ -311,11 +311,11 @@ void LimpiarScreen()
     system("clear");
 }
 void MenuAdmin(Gym &gymMain){
-    cout <<"Modo Admin" << endl;
+   
 
     string calle, nombreG,nombreM;
     int numeroP,codP;
-    float precio;
+    // float precio;
     int op;
     do{ 
         cout << "---------------------ADMIN-----------------------------" << endl;
@@ -358,6 +358,7 @@ void MenuAdmin(Gym &gymMain){
                                     cout<<"Esta seguro que los datos estan correctos? (s/n): ";
                                     cin>>r;
                                     if(r == 's' || r == 'S'){
+                                        LimpiarScreen();
                                     gymMain.AgregarGymnasios(nombreG,calle,numeroP,codP);
                                     cout <<"Revisar que se haya registrado correctamente en la opcion 1" << endl;
                                     }else{
@@ -371,7 +372,6 @@ void MenuAdmin(Gym &gymMain){
                             }
                             case 3:{
                                  LimpiarScreen();
-                                 cout << "Saliendo..." << endl;
                                 break;
                             }
                             default: {
@@ -387,7 +387,6 @@ void MenuAdmin(Gym &gymMain){
             case 3:
             {
                 LimpiarScreen();
-                cout << "Saliendo del modo Admin.." << endl;
                 break;
             }
             default: {
@@ -429,6 +428,7 @@ void MenuCliente(Gym &gymEncontrado, Cliente *cliente, Gym &gymnsioMain)
            
         }
     } while (op != 7);
+    
 }
 void Menu(Gym &gym)
 {
@@ -520,10 +520,12 @@ void Menu(Gym &gym)
                     {
                         // el usuario se pudo logear
                         // se redirige al menu de usuario
+                        LimpiarScreen();
                         MenuCliente(*gymnasioEncontrado, clienteEncontrado, gym);
                     }
                     else
                     {
+                        LimpiarScreen();
                         cout << "Error: credenciales ingresadas incorrectas.." << endl;
                         break;
                     }
@@ -612,7 +614,6 @@ void Menu(Gym &gym)
 int main()
 {
     LimpiarScreen();
-    cout << "Bienvenidos al Proyecto 2 poo c++" << endl;
     Gym gymnasio;
     InicializarGymnasios(gymnasio);
     Menu(gymnasio);
