@@ -232,25 +232,30 @@ public:
             int i = 0;
             for (const Gym &gyms : ListaGymn)
             {
-                cout << "Nombre: " << gyms.getNombre() <<" (" <<i+1<<")"  << "\nDireccion: " << gyms.getDireccionSucursal() <<endl;
+                cout << "Nombre: " << gyms.getNombre() << " (" << i + 1 << ")"
+                     << "\nDireccion: " << gyms.getDireccionSucursal() << endl;
                 cout << " ----------------------------------------------------------" << endl;
                 i++;
             }
-         
         }
     }
-    void MostrarMembresias(){
-        if(ListaMembresias.empty()){
-            cout <<"Error: Lista de membresias vacia..." << endl;
+    void MostrarMembresias()
+    {
+        if (ListaMembresias.empty())
+        {
+            cout << "Error: Lista de membresias vacia..." << endl;
             return;
-        }else{
-             int i = 0;
-            for(auto &membresias : ListaMembresias){
-                cout << "Nombre: " << membresias.getNombre()<<" (" <<i+1<<")"  << "\nPrecio: " << membresias.getPrecioMembresia() <<" "<<endl;
-                 cout << " ----------------------------------------------------------" << endl;
+        }
+        else
+        {
+            int i = 0;
+            for (auto &membresias : ListaMembresias)
+            {
+                cout << "Nombre: " << membresias.getNombre() << " (" << i + 1 << ")"
+                     << "\nPrecio: " << membresias.getPrecioMembresia() << " " << endl;
+                cout << " ----------------------------------------------------------" << endl;
                 i++;
             }
-            
         }
     }
     // retorna un puntero al gymnasio pasado por nombre, si no lo encuentra devuelve null
@@ -292,6 +297,19 @@ public:
         }
         return false; // si no existe una cedula retorna false
     }
+    bool MismaDireccionGym(const string &calle, const int numero_Puerta, const int codigo_Postal)
+    {
+        // arreglar, solo funciona si es el mismo gym pero si son gimnasios diferentes en la misma direccion no lo toma en cuenta
+        for (auto const &gym : ListaGymn)
+        {
+            // si la direccion del gimnasio es igual, entonces retorna true en caso contrario false
+            if (gym.direccionGym.getCalle() == calle && gym.direccionGym.getNumeroPuerta() == numero_Puerta && gym.direccionGym.getCodPostal() == codigo_Postal)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 };
 void InicializarMembresiasGym(Gym &gym)
 {
@@ -301,6 +319,7 @@ void InicializarMembresiasGym(Gym &gym)
 }
 void InicializarGymnasios(Gym &gymnasio)
 {
+    // dado que el programa no consta de una base de datos, creo un mini base de datos con casos bases para el inicio
     gymnasio.AgregarGymnasios("FitnessPro", "Av.Italia", 2360, 11500);
     gymnasio.AgregarGymnasios("FitnessPro", "Rivera", 1400, 11500);
     gymnasio.AgregarGymnasios("Gymnasio_1", "Pocitos", 2390, 11500);
@@ -310,14 +329,16 @@ void LimpiarScreen()
 {
     system("clear");
 }
-void MenuAdmin(Gym &gymMain){
-   
+void MenuAdmin(Gym &gymMain)
+{
 
-    string calle, nombreG,nombreM;
-    int numeroP,codP;
+    string calle, nombreG, nombreM;
+    int numeroP, codP;
     // float precio;
     int op;
-    do{ 
+    do
+    {
+
         cout << "---------------------ADMIN-----------------------------" << endl;
         cout << "1-Ver Listado Gymnasios" << endl;
         cout << "2-Gestionar gymnasios" << endl;
@@ -325,80 +346,111 @@ void MenuAdmin(Gym &gymMain){
         cout << "Ingrese opcion: ";
         cin >> op;
 
-        switch(op){
-            case 1: {
-                cout <<"--------------Gymnasios----------------------" << endl;
-                    gymMain.MostrarListadoGymnasios();
-                break;
-            }
-            case 2 : {
-                int var;
-                LimpiarScreen();
-                    do{
-
-                        cout << "1-Agregar nuevo gymnasio"<<endl;
-                        cout << "2-Agregar Membresia" << endl;
-                        cout << "3-salir"<< endl;
-                        cout<< "Opcion: ";
-                        cin>>var;
-
-                        switch(var){
-                            case 1:{
-                                    cout << "---Nuevo gymnasio---" << endl;
-                                    cout << "Nombre: ";
-                                    cin>>nombreG;
-                                    cout << "Direccion del gimnasio " << endl;
-                                    cout<< "Calle: ";
-                                    cin>>calle;
-                                    cout <<"Numero de puerta: ";
-                                    cin>>numeroP;
-                                    cout <<"Codigo postal: ";
-                                    cin>>codP;
-                                    char r;
-                                    cout<<"Esta seguro que los datos estan correctos? (s/n): ";
-                                    cin>>r;
-                                    if(r == 's' || r == 'S'){
-                                        LimpiarScreen();
-                                    gymMain.AgregarGymnasios(nombreG,calle,numeroP,codP);
-                                    cout <<"Revisar que se haya registrado correctamente en la opcion 1" << endl;
-                                    }else{
-                                        cout<<"jodete"<<endl;
-                                    }
-
-                                break;
-                            }
-                            case 2: {
-                                break;
-                            }
-                            case 3:{
-                                 LimpiarScreen();
-                                break;
-                            }
-                            default: {
-                                LimpiarScreen();
-                                cout << "Error: opcion incorrecta..." << endl;
-                                break;
-                            }
-                        };
-
-                    }while(var!=3);
-                break;
-            } 
-            case 3:
+        switch (op)
+        {
+        case 1:
+        {
+            LimpiarScreen();
+            char s;
+            cout << "--------------Gimnasios----------------------" << endl;
+            gymMain.MostrarListadoGymnasios();
+            cout << "Salir con (S): ";
+            cin >> s;
+            if (s == 's' || s == 'S')
             {
                 LimpiarScreen();
                 break;
             }
-            default: {
-                LimpiarScreen();
-                cout <<"Error: opcion invalida..." << endl;
-                break;
-            }
+            break;
+        }
+        case 2:
+        {
+            int var;
+            LimpiarScreen();
+            do
+            {
+                cout << " ----------------------------------" << endl;
+                cout << "1-Agregar nuevo gymnasio" << endl;
+                cout << "2-Agregar Membresia" << endl;
+                cout << "3-salir" << endl;
+                cout << "Opcion: ";
+                cin >> var;
+
+                switch (var)
+                {
+                case 1:
+                {
+                    cout << "---Nuevo gimnasio---" << endl;
+                    cout << "Nombre: ";
+                    cin >> nombreG;
+                    cout << "Direccion del gimnasio " << endl;
+                    cout << "Calle: ";
+                    cin >> calle;
+                    cout << "Numero de puerta: ";
+                    cin >> numeroP;
+                    cout << "Codigo postal: ";
+                    cin >> codP;
+                    char r;
+                    cout << "Esta seguro que los datos estan correctos? (s/n): ";
+                    cin >> r;
+                    if (r == 's' || r == 'S')
+                    {
+                        LimpiarScreen();
+                        // si ya existe un gimnasio en esta direccion entonces muestro el error
+                        if (gymMain.MismaDireccionGym(calle, numeroP, codP))
+                        {
+                            LimpiarScreen();
+                            cout << "Ya existe un gimnasio registrado en esta dirección." << endl;
+                            break;
+                        }
+                        else
+                        {
+
+                            gymMain.AgregarGymnasios(nombreG, calle, numeroP, codP);
+                            cout << "Revisar que se haya registrado correctamente en la opción 1" << endl;
+                        }
+                    }
+                    else
+                    {
+                        cout << "jodete" << endl;
+                    }
+
+                    break;
+                }
+                case 2:
+                {
+                    break;
+                }
+                case 3:
+                {
+                    LimpiarScreen();
+                    break;
+                }
+                default:
+                {
+                    LimpiarScreen();
+                    cout << "Error: opcion incorrecta..." << endl;
+                    break;
+                }
+                };
+
+            } while (var != 3);
+            break;
+        }
+        case 3:
+        {
+            LimpiarScreen();
+            break;
+        }
+        default:
+        {
+            LimpiarScreen();
+            cout << "Error: opcion invalida..." << endl;
+            break;
+        }
         };
-        
-    }while(op!=3);
 
-
+    } while (op != 3);
 }
 void MenuCliente(Gym &gymEncontrado, Cliente *cliente, Gym &gymnsioMain)
 {
@@ -419,16 +471,16 @@ void MenuCliente(Gym &gymEncontrado, Cliente *cliente, Gym &gymnsioMain)
             gymnsioMain.MostrarMembresias();
             break;
         }
-        case 2:{
+        case 2:
+        {
             break;
         }
-        default:{
+        default:
+        {
             break;
         }
-           
         }
     } while (op != 7);
-    
 }
 void Menu(Gym &gym)
 {
@@ -438,7 +490,7 @@ void Menu(Gym &gym)
     do
     {
 
-        cout << "********** Menú Princiap **********" << endl;
+        cout << "********** Menú Princial **********" << endl;
         cout << "1-Ver Lista de gymnasios disponibles " << endl;
         cout << "2-Registro / Login " << endl;
         cout << "3-Sobre nosotros" << endl;
@@ -456,30 +508,33 @@ void Menu(Gym &gym)
             Gym *gymEncontrado = nullptr;
             cout << "******* Gymnasios Disponibles ******* " << endl;
             gym.MostrarListadoGymnasios();
-            cout<<"Desea ver las membresias que contiene algun gymnasio en particular?(S/n):  ";
-            cin>>n;
+            cout << "Desea ver las membresias que contiene algun gymnasio en particular?(S/n):  ";
+            cin >> n;
             LimpiarScreen();
-            while(n=='s' || n=='S'){
+            while (n == 's' || n == 'S')
+            {
                 LimpiarScreen();
-                cout<<"Ingrese nombre del gym que esta interesado: ";
-                cin>>name;
+                cout << "Ingrese nombre del gym que esta interesado: ";
+                cin >> name;
                 gymEncontrado = gym.getGymnasio(name);
-                if(gymEncontrado==nullptr){
-                    cout <<"Error: El gymnasio ingresado no se encuentra en nuestra base de datos..."<<endl;
-                }else{
-                
-                InicializarMembresiasGym(*gymEncontrado); // funcion parche hasta que pueda tener planes diferentes para gymnasios diferentes
-                gymEncontrado->MostrarMembresias();
+                if (gymEncontrado == nullptr)
+                {
+                    cout << "Error: El gymnasio ingresado no se encuentra en nuestra base de datos..." << endl;
+                }
+                else
+                {
+                    InicializarMembresiasGym(*gymEncontrado);
+                    gymEncontrado->MostrarMembresias();
                 }
 
-                cout<<"Si desea las membresias que contiene algun gymnasio en particular(S/n):  ";
-                cin>>n;
+                cout << "Si desea las membresias que contiene algun gymnasio en particular(S/n):  ";
+                cin >> n;
             }
             delete gymEncontrado;
-            gymEncontrado= nullptr;
+            gymEncontrado = nullptr;
             break;
             // las debo agregar membresias a cada objeto gym, dado que se encuentran unicamente en el objeto general asociados
-        } 
+        }
         // Login / registro
         case 2:
         {
@@ -515,7 +570,7 @@ void Menu(Gym &gym)
                     cin >> password;
                     // verifica la autentificacion
                     Cliente *clienteEncontrado = gymnasioEncontrado->getClienteKey(cedula);
-            
+
                     if (clienteEncontrado != nullptr && clienteEncontrado->getPassword() == password)
                     {
                         // el usuario se pudo logear
@@ -578,31 +633,35 @@ void Menu(Gym &gym)
         case 3:
         {
             LimpiarScreen();
-            cout<<"---------------------------------------"<<endl;
-            cout<<"Proyecto practica de POO en c++"<<endl;
-            cout <<"Es un sistema de gymnasios, cuenta con un simulador de registro/login y"<<endl;
-            cout<<"ademas cuenta con una lista de gymnasios registrados donde el usuario puede visualizar y de ahi elegir cual registrarse."<<endl;
-            cout<<"Cada gymnasio cuenta con una lista de membresias con su precio y descripcion." << endl;
-            cout <<"En la parte del usuario contamos con un menu simple de 'mi cuenta', el cual tiene opciones como; Cambiar contraseña,"<<endl;
-            cout<<"mi plan actual de la membresia, historial de planes y dar de baja"<<endl;
-            cout<<"Este mini proyecto elaborado por Felipe Masliah en vacaiones de turismo "<< endl;
+            cout << "---------------------------------------" << endl;
+            cout << "Proyecto practica de POO en c++" << endl;
+            cout << "Es un sistema de gymnasios, cuenta con un simulador de registro/login y" << endl;
+            cout << "ademas cuenta con una lista de gymnasios registrados donde el usuario puede visualizar y de ahi elegir cual registrarse." << endl;
+            cout << "Cada gymnasio cuenta con una lista de membresias con su precio y descripcion." << endl;
+            cout << "En la parte del usuario contamos con un menu simple de 'mi cuenta', el cual tiene opciones como; Cambiar contraseña," << endl;
+            cout << "mi plan actual de la membresia, historial de planes y dar de baja" << endl;
+            cout << "Este mini proyecto elaborado por Felipe Masliah en vacaiones de turismo " << endl;
             break;
         }
         case 7:
         {
             LimpiarScreen();
             cout << "Saliendo del programa...";
+
             break;
         }
         default:
         {
             LimpiarScreen();
-            if(opcion == 1000){
+            if (opcion == 1000)
+            {
                 LimpiarScreen();
                 MenuAdmin(gym);
-            }else{
+            }
+            else
+            {
 
-            cout << " Ingrese opción valída... "<< endl;
+                cout << " Ingrese opción valída... " << endl;
             }
             break;
         }
@@ -620,3 +679,20 @@ int main()
 
     return 0;
 }
+/*Consideraciones
+-En la funcion si existe en la misma direccion un gymnasio es incorrecta ya que solo comprueba que no se repita el mismo gym en la misma direccion,
+pero si son diferentes gym lo toma valido y es un errror.
+
+-Cuando en menu principal abro el listado de gymnasios y coloco ver sus membresias y luego salgo del menu por alguna razon da segmenation fault (prioridad 1 arreglarlo)
+pasos
+    *opcion 1 ver listado de gimnasios
+        solicitar ver plan de membresias de un gimnasio en particular
+            - muestra sus planes
+        apretamos 'n' para no continuar
+    *opcion 7 para salir del programa / rompe
+
+    // arreglar los errores del menu
+-------
+*Hacer el menu de usuario
+
+*/
