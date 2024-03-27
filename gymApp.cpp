@@ -186,8 +186,9 @@ public:
     {
         MembresiasGym membresias(nombre, precio, true);
         ListaMembresias.push_back(membresias);
+      
     }
-    vector<MembresiasGym> obtenerListaMembresiasDisponibles()
+    vector<MembresiasGym> obtenerListaMembresiasDisponibles() 
     {
         vector<MembresiasGym> membresiasDisponibles;
         for (auto &plan : ListaMembresias)
@@ -204,6 +205,7 @@ public:
         Direccion direccionGym(calle, numPuerta, codP);
         Gym nuevoGymnasio(nombre, direccionGym);
         ListaGymn.push_back(nuevoGymnasio);
+      
     }
 
     const string getDireccionSucursal() const
@@ -299,7 +301,6 @@ public:
     }
     bool MismaDireccionGym(const string &calle, const int numero_Puerta, const int codigo_Postal)
     {
-        // arreglar, solo funciona si es el mismo gym pero si son gimnasios diferentes en la misma direccion no lo toma en cuenta
         for (auto const &gym : ListaGymn)
         {
             // si la direccion del gimnasio es igual, entonces retorna true en caso contrario false
@@ -455,6 +456,8 @@ void MenuAdmin(Gym &gymMain)
 void MenuCliente(Gym &gymEncontrado, Cliente *cliente, Gym &gymnsioMain)
 {
     int op;
+    size_t index;
+    char choice;
     do
     {
         cout << "+++++++++" << gymEncontrado.getNombre() << ". Usuario(" << cliente->getNombre() << ") ++++" << endl;
@@ -467,8 +470,22 @@ void MenuCliente(Gym &gymEncontrado, Cliente *cliente, Gym &gymnsioMain)
         {
         case 1:
         {
+            /*muestro lista de planes, el usuario selecciona un indice, traigo a la membresia seleccionada por el indice y si el
+            usuario desea dar pago lo inscribo a  esa membresia*/
             LimpiarScreen();
-            gymnsioMain.MostrarMembresias();
+            gymEncontrado.MostrarMembresias();
+            cout<<"\nSi desea adquirir una membresia(s/n): ";
+            cin>>choice;
+            MembresiasGym *membresiaSelected = nullptr;
+            if(choice == 'S' || choice =='s'){
+                cout <<"Ingrese indice de la membresia: ";
+                cin>> index;
+              
+                if(index > 0){
+
+                }
+            }
+
             break;
         }
         case 2:
@@ -511,6 +528,7 @@ void Menu(Gym &gym)
             cout << "Desea ver las membresias que contiene algun gymnasio en particular?(S/n):  ";
             cin >> n;
             LimpiarScreen();
+            // si apreta que si y eligen una memebresia especifica y sale del progama rompe
             while (n == 's' || n == 'S')
             {
                 LimpiarScreen();
@@ -622,10 +640,14 @@ void Menu(Gym &gym)
                     cout << "Número: ";
                     cin >> numP;
                     Direccion dirUsuario(calle, numP, 11500);
-                    Cliente nuevoUsuario(nombreUsuario, apellidoUser, cedula, edad, password, dirUsuario);
+                    //creo el objeto nuevo cliente con esas caracteristicas
+                    Cliente *nuevoUsuario = new Cliente(nombreUsuario, apellidoUser, cedula, edad, password, dirUsuario);
                     // crea el objeto usuario en el gym
-                    gymnasioEncontrado->AltaUsuario(nuevoUsuario); // doy de alta al cliente en el gymnasio ingresado
+                    if(nuevoUsuario){
+                    gymnasioEncontrado->AltaUsuario(*nuevoUsuario); // doy de alta al cliente en el gymnasio ingresado
                     // vuelve al menu
+                    delete nuevoUsuario;  // libero la memoria
+                    }
                 }
             }
             break;
@@ -673,10 +695,10 @@ void Menu(Gym &gym)
 int main()
 {
     LimpiarScreen();
-    Gym gymnasio;
-    InicializarGymnasios(gymnasio);
-    Menu(gymnasio);
-
+    Gym *gymnasio = new Gym();
+    InicializarGymnasios(*gymnasio);
+    Menu(*gymnasio);
+    delete gymnasio;
     return 0;
 }
 /*Consideraciones
